@@ -49,7 +49,12 @@ class Requisition extends Model
 
     public function requesteds()
     {
-       return $this->belongsTo(Requested::class, 'assigned_requesteds');
+       return $this->belongsToMany(Requested::class, 'assigned_requesteds','requested_id');
+    }
+
+    public function quotes()
+    {
+        return $this->belongsToMany(Quote::class,'assigned_quotes');
     }
 }
 

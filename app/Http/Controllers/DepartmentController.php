@@ -23,7 +23,7 @@ class DepartmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('roles:admin,coordinador');
+        $this->middleware('roles:admin,coordinador,titular');
     }
 
 
@@ -72,9 +72,25 @@ class DepartmentController extends Controller
     public function create()
     {
        // $coordinations = Coordination::all();
-     //    $users = User::whereHas('roles')->where('name','=','titular')->first() ;
+        // $users = User::whereHas('roles')->where('name','=','titular')->first() ;
       // $users = DB::table('assigned_roles')->where('role_id','=','3' )->get();
         $users = Role::with('user')->where('name','=','titular')->get();
+            // $app = Usuarios::where('UsuarioID', '>', 1)
+            // ->join('OpcionesUsuarios', 'OpcionUsuarioID', '=', 'UsuarioID')
+            // ->select('Usuarios.UsuarioID', 'OpcionesUsuarios.OpcionUsuarioID')
+            // ->get();
+        //     return $user = Department::where('user_id','>',1)
+        //     ->join('users','id','=', 'user_id')
+        //     ->select('users.id','departments.user_id')
+        //     ->get();
+        // //    $users = User::select('id')->get();
+        // foreach ($users as $u) {
+        //     return $u->id;
+        // }
+        //  $user_id =   Department::select('user_id')->get();
+        //  foreach ($user_id as $u) {
+        //        $user_id = $u->user_id;
+        //  }
         return view('departments.create',compact('users'));
     }
 

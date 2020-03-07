@@ -49,7 +49,11 @@ class CoordinationController extends Controller
      */
     public function create()
     {
-        $users = Role::with('user')->where('name','=','coordinador')->get();
+         $coordinacion = Coordination::all();
+         foreach ($coordinacion as $c) {
+             $c->user_id;
+         }
+         $users = Role::with('user')->where('name','=','coordinador')->get();
       /// return $users = User::with('roles')->get();
        // $users = DB::table('assigned_roles')->where('role_id','=','2' )->get();
         $departments = Department::pluck('name', 'id');
@@ -98,10 +102,11 @@ class CoordinationController extends Controller
      */
     public function edit($slug)
     {
+
         $coordinacion = Coordination::where('slug', '=', $slug)->firstOrFail();
-        $users = User::all();
+      // return $users = User::all();
         $departments  = Department::pluck('name','id');
-        return view('coordinations.edit', compact('coordinacion','users','departments'));
+        return view('coordinations.edit', compact('coordinacion','departments'));
     }
 
     /**

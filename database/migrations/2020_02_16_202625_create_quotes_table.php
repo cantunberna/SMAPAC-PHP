@@ -19,11 +19,11 @@ class CreateQuotesTable extends Migration
             $table->integer('prov_id_one')->unsigned();
             $table->string('prov_one_img')->nullable();
             $table->longText('prov_one_file')->nullable();
-            $table->integer('prov_id_two')->unsigned();
-            $table->string('prov_two_img')->nullable();
+            $table->integer('prov_id_two')->unsigned()->nullable();
+            $table->string('prov_two_img')->nullable()->nullable();
             $table->longText('prov_two_file')->nullable();
-            $table->integer('prov_id_three')->unsigned();
-            $table->string('prov_three_img')->nullable();
+            $table->integer('prov_id_three')->unsigned()->nullable();
+            $table->string('prov_three_img')->nullable()->nullable();
             $table->longText('prov_three_file')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->timestamps();

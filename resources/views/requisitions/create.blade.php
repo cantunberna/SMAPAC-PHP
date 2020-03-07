@@ -144,7 +144,6 @@
             '</div>' +
             '</div>'; //Nuevo campo de entrada html
         var x = 1; //El contador de campo inicial es 1
-
         //Una vez que se hace clic en el botón Agregar
         $(addButton).click(function(){
             //Verifique el número máximo de campos de entrada

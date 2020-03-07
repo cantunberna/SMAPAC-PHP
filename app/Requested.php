@@ -8,8 +8,15 @@ class Requested extends Model
 {
     protected $table = 'requesteds';
 
-    public function requisitions()
+    public function departaments()
     {
-        return $this->hasOne(Requisition::class, 'assigned_requisteds');
+    return $this->belongsToMany(Department::class,'assigned_products');
     }
+
+
+    public function requesteds()
+    {
+       return $this->belongsToMany(Requested::class,'');
+    }
+
 }

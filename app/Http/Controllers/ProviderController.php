@@ -8,18 +8,11 @@ use App\Http\Requests\StoreProviderRequest;
 
 class ProviderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('roles:admin,coordinador,titular');
+        $this->middleware('roles:admin,titular,coordinador');
     }
-
 
     public function index()
     {

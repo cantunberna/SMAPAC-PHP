@@ -1,21 +1,24 @@
 @extends('layouts.master')
 @section('title', 'Requisicion')
 @section('content')
+<div class="container col-md-10 ">
 
-    <a class="btn btn-danger" href="{{ route('requisitions.index') }}">
+    <a class="btn btn-danger" href="{{ url()->previous() }}">
     <i class="fas fa-backspace">
     </i>
     Regresar
     </a>
+    @if( $requisitions->status == "0")
     <a class="btn btn-info" href="{{route('requisitions.load',$requisitions->id) }} ">
         <i class="fas fa-file-upload">
         </i>
         Subir
     </a>
     <a class="btn btn-warning" href='javascript:;' onclick="genPDF();"><i class="fas fa-print"></i>&nbsp;PDF</a>
-<div class="container col-md-10 ">
-
-<h1>{{ $requisitions->folio }}</h1>
+    @endif
+<br>
+<br>
+<h1><strong>{{ $requisitions->folio }}</strong></h1><br>
     <table class="table">
     <tr>
         <th >Fecha de registro:</th>
@@ -119,7 +122,7 @@
 </table>
             {{--<img src="{{ asset('images/requisitions/'.$requisitions->img_req  )  }}" class="img-fluid img-thumbnail" alt="...">
        --}}
-
+<br>
     <div class="container">
         <div class="row">
             <div class="col-sm">
@@ -132,7 +135,6 @@
                 <strong>AUTORIZÓ</strong>
             </div>
         </div>
-        <br>
         <br>
     <div class="container">
         <div class="row">

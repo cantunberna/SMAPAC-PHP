@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAssignedRequestedsTable extends Migration
+class CreateAssignedProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateAssignedRequestedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('assigned_requesteds', function (Blueprint $table) {
+        Schema::create('assigned_products', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('department_id')->unsigned();
+            $table->integer('purchase_id')->unsigned();
+            $table->integer('products_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateAssignedRequestedsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assigned_requesteds');
+        Schema::dropIfExists('assigned_products');
     }
 }

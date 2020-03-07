@@ -1,9 +1,12 @@
 @extends('layouts.master')
 @section('title', 'Requisiciones Autorizadas')
 @section('content')
+@include('common.alerts')
+
 <h1>Requisiciones
     <small class="text-muted"> autorizadas</small>
 </h1>
+
 <div class="card">
     <div class="card-body">
         <table class="table table-hover" id="example">
@@ -12,19 +15,9 @@
                 <th>
                     REQ.NO
                 </th>
-                {{--  <th>
-                    Fecha
-                </th>  --}}
-
-                {{--  <th>
-                    Unidad Administrativa
-                </th>  --}}
                 <th>
                     Fecha solicitada
                 </th>
-                {{--  <th>
-                    Asunto
-                </th>  --}}
                 <th>
                     Fecha para requerir
                 </th>
@@ -36,55 +29,62 @@
                 </th>
             </tr>
             </thead>
+
             <tbody>
-            @foreach ($requisitions as $requi)
+                @forelse ($requisitions as $requi)
 
                 <tr>
                     <td>
-                        {{$requi->folio}}
-                    </td>
-                    {{--  <td>
-                        {{$requisicion->added_on}}
-                    </td>  --}}
-                    {{--
-                    *****DESBLOQUEAR LAS COORDDINACIONES Y DEPARTAMENTOS
-                          <td>
-                              @foreach ($requi->coordinations as $coor)
-                                  <li> {{$coor->name}}</li>
-                              @endforeach
-                          </td>
-                          <td>
-                              @foreach ($requi->departments as $depar)
-                                  <li> {{$depar->name}}</li>
-                              @endforeach
-                          </td>
-
-                          --}}
-                    {{--  <td>
-                        {{$requisicion->administrative_unit }}
-                    </td>  --}}
-                    <td>
-                        {{$requi->added_on }}
-                    </td>
-                    {{--  <td>
-                        {{$requisicion->issue }}
-                    </td>  --}}
-                    <td>
-                        {{$requi->required_on}}
-                        {{--
-                     <img style="  width: 60px; height: 60px;" src="{{ asset('images/requisitions/'.$requi->img_req  )  }}">
- --}}
+                     <strong>{{$requi->requisition->folio}}</strong>
                     </td>
                     <td>
-                        <button class="btn btn-warning btn-xs" type="submit">En proceso de compra</button>
+                        {{$requi->requisition->added_on }}
+                    </td>
+                    <td>
+                        {{$requi->requisition->required_on}}
+                    </td>
+                    <td>
+                        <button class="btn btn-warning btn-xs" type="submit">Por cotizar</button>
                     </td>
                     <td>
                         <a class="btn btn-info btn-xs"
-                           {{--  href="{{ route('users.edit'), $user->id }}">Editar</a>  --}}
-                           href="/requisitions/authorized/{{$requi->id }}">Ver</a>
+                           {{--  href="/requisitions/authorized/{{$requi->requisition->id }}">  --}}
+                           href="{{ route('requisitions.authorized',$requi->requisition->id)  }}">
+                           Ver
+                        </a>
+                        @if(auth()->user()->isAdmin())
+                           <form style="display:inline"
+                           method="POST"
+                               @csrf
+                               @method('DELETE')
+                               <button class="btn btn-danger btn-xs" type="submit">
+                                   Eliminar
+                               </button>
+                           </form>
+                       @endif
                     </td>
                 </tr>
-            @endforeach
+                @empty
+                <div class="container">
+                    <div class="alert alert-dark text-center" role="alert">
+                        <h5>
+                            <strong>No existen requisiciones autorizadas</strong>
+                        </h5>
+                        <hr>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+                @endforelse
             </tbody>
         </table>
     </div>

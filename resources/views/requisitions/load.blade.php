@@ -9,9 +9,16 @@
         </div>
     @endif
     <div class="container">
-    <h1>  Subir requisición firmada</h1>
+        <style>
+            h1 {
+                color: cornflowerblue;
+            }
+
+        </style>
+        <h1> <strong> Subir requisición firmada </strong><h4>(FOTO)</h4></h1>
+
         <br>
-     <h2> <strong></strong>{{$requisitions->folio}}</strong></h2>
+     <h2> <strong>{{$requisitions->folio}}</strong></h2>
     </div>
     <br>
     <form action="{{route('requisitions.upload',$requisitions->id) }}" class="form-group" method="POST" enctype="multipart/form-data">
@@ -36,7 +43,7 @@
         <br>
         <br>
 
-        <a class="btn btn-danger" href="/requisitions/{{$requisitions->id}}">
+        <a class="btn btn-danger" href="{{ url()->previous() }}">
             <i class="fas fa-times-circle">
             </i>
             Cancelar

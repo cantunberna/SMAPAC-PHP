@@ -26,11 +26,5 @@ class PivotRequisition extends Model
         return $this->belongsTo(Requisition::class);
     }
 
-    public function req_earrings()
-    {
-        return $this->belongsTo(Requisition::class,'requisition_id')
-            ->where('status','=','0');
-
-    }
 
 }

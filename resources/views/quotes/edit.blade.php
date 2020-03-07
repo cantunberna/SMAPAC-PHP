@@ -12,15 +12,17 @@
                 </a>
             @endif
         </h1>
-        
+
         <div>
-            <form action="{{route('quotes.store')}}"method="POST" enctype="multipart/form-data">
-                 @method('POST')
+            <form action="{{ action('QuotesController@store') }}" method="POST" enctype="multipart/form-data">
+                @method('POST')
                 @csrf
                <h2 style="color:#1fc8e3;"> <strong>Requisicion: {{$requisition->folio}}</strong></h2>
                <input type="text" class="custom-file-input" name="requisition_id" value="{{$requisition->id}}" hidden>
+     <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" name="department_id" value="{{ $department_id }}" hidden>
             </div>
-        
+
+
     <div class="row contenedor">
         <div class="form-group col-md-4">
             <label for="inputState">Proveedor #1</label>
@@ -46,7 +48,7 @@
             <div class="form-group">
                 <label for="inputEmail3" class="col-form-label">Cotización</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input file-input1" id="file1" name="prov_one_img" accept="image/*">
+                    <input type="file" class="custom-file-input file-input1" id="file1" name="prov_one_img">
                     <label class="custom-file-label form-control-file">Seleccionar un archivo</label>
                 </div>
             </div>
@@ -74,7 +76,7 @@
             <div class="form-group">
                 <label for="inputEmail3" class="col-form-label">Cotización</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input file-input2" id="file2" name="prov_two_img" accept="image/*">
+                    <input type="file" class="custom-file-input file-input2" id="file2" name="prov_two_img">
                     <label class="custom-file-label form-control-file">Seleccionar un archivo</label>
                 </div>
             </div>
@@ -102,26 +104,26 @@
             <div class="form-group">
                 <label for="inputEmail3" class="col-form-label">Cotización</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input file-input3" id="file3" name="prov_three_img"  accept="image/*">
+                    <input type="file" class="custom-file-input file-input3" id="file3" name="prov_three_img">
                     <label class="custom-file-label form-control-file">Seleccionar un archivo</label>
                 </div>
             </div>
           </div>
         </div>
             <button class="btn btn-primary" type="submit">
-                <i class="fas fa-check-circle"></i>Subir     
+                <i class="fas fa-check-circle"></i> Subir
             </button>
           </form>
           <br><br>
         </div>
-        
+
 <script src="/js/app.js"></script>
 <script type="text/javascript">
     $('.file-input1').on('change',function(){
     var fileName = document.getElementById("file1").files[0].name;
     $(this).next('.form-control-file').addClass("selected").html(fileName);
-    }) 
-    
+    })
+
     $('.file-input2').on('change',function(){
     var fileName = document.getElementById("file2").files[0].name;
     $(this).next('.form-control-file').addClass("selected").html(fileName);
@@ -171,5 +173,5 @@
         $('#prov3_rfc').val(rfc);
     });
 </script>
-   
+
 @endsection

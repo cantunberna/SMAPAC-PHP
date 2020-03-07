@@ -10,6 +10,7 @@ class MirController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('roles:admin,titular,coordinador');
     }
     /**
      * Display a listing of the resource.

@@ -32,6 +32,10 @@ class Department extends Model
     {
         return $this->hasMany(Requisition::class,'assigned_requisitions');
     }
+    public function quotes()
+    {
+        return $this->belongsToMany(Quote::class,'assigned_quotes');
+    }
 
 
 }

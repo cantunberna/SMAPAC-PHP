@@ -54,9 +54,7 @@ class RequisitionsController extends Controller
                 {
                     if(auth()->user()->isTitular()) {
                         $user = auth()->user()->id;
-                       $requisitions = PivotRequisition::all()
-                     ->where('user_id','=',$user)
-                        ->where('status','=','0');
+                   $requisitions = PivotRequisition::all()->where('user_id','=',$user)->where('status','=','0');
                         //   $requisitions = PivotRequisition::all()->where('user_id','=', $user);
                      //   $requisitions = Requisition::all()->where('status', '=', '0');
                         //$user = auth()->user()->id;
@@ -77,6 +75,8 @@ class RequisitionsController extends Controller
      */
     public function create()
     {
+        // return Requisition::with('requesteds')->get();
+
         if(auth()->check())
         {
             if ($users = auth()->user()->isAdmin())
@@ -93,12 +93,12 @@ class RequisitionsController extends Controller
                  $depar = Department::all()->where('user_id','=',$users);
                 foreach ($depar as $dep)
                 {
-                $iddepartment=$dep->id;
+               $iddepartment=$dep->id;
                 }
                $idpivot = PivotDepartments::all()->where('department_id','=', $iddepartment);
                     foreach ($idpivot as $pivot)
                     {
-                         $idcoor =  $pivot->coordination_id;
+              $idcoor =  $pivot->coordination_id;
                     }
                $coor = Coordination::all()->where('id','=',$idcoor);
                 $requi = PivotRequisition::all()->where('user_id','=', $users);
@@ -146,7 +146,7 @@ class RequisitionsController extends Controller
      */
     public function store(StoreRequisitionRequest $request)
     {
-           // $request->all();
+        //  $request->all();
         //$user = User::create($request->all());
        $requisition = new Requisition();
        $requisition->folio = $request->input('folio');
@@ -155,40 +155,33 @@ class RequisitionsController extends Controller
        $requisition->administrative_unit = $request->input('administrative_unit');
        $requisition->required_on = $request->input('required_on');
        $requisition->issue = $request->input('issue');
-       // $requisition->departure = implode("", $request->departure);
-       // $requisition->quantity = implode(",", $request->quantity);
-       // $requisition->unit = implode(",", $request->unit);
-        //$requisition->concept = implode(",", $request->concept);
-      //  return $request->input('departure');
+       $requisition->remark = $request->input('remark');
         $requisition->status = 0;
-        // foreach($request->departure as $d)
-        // {
-        //       $d;
-        // }
-        // foreach($request->quantity as $quantity)
-        // {
-        //       $quantity;
-        // }
+        $requisition->save();
 
-        // foreach($request->unit as $unit)
-        // {
-        //       $unit;
-        // }
+            $requesteds = new Requested();
 
-        // foreach($request->concept as $concept)
-        // {
-        //       $concept;
-        // }
+              foreach ($request->departure as $item=>$v) {
+                  $data2=array(
+                        'departure' => $request->departure[$item],
+                    'quantity' => $request->quantity[$item],
+                    'unit' => $request->unit[$item],
+                    'concept' => $request->concept[$item],
 
-        $requesteds = new Requested();
-        $requesteds->departure = $request->input('departure');
-        $requesteds->quantity = $request->input('quantity');
-        $requesteds->unit = $request->input('unit');
-        $requesteds->concept = $request->input('concept');
+
+                );
+             $requesteds = Requested::insert($data2);
+            //  $requisition->requesteds()->attach($requesteds);
+
+             //$requisition->requesteds()->attach($requesteds);
+            }
+
+        // $requesteds->departure = $request->input('departure');
+        // $requesteds->quantity = $request->input('quantity');
+        // $requesteds->unit = $request->input('unit');
+        // $requesteds->concept = $request->input('concept');
        // return $departure ." ". $quantity ." ". $unit ." ". $concept ;
 
-        $requisition->save();
-        $requesteds->save();
 
         $requisitions = $requisition->coordinations()->attach($request->input('coordination_id'), ['department_id' => $request->input('department_id'),'accountant' => $request->input('accountant'),'user_id'=> $request->input('user_id')]);
 
@@ -244,7 +237,7 @@ class RequisitionsController extends Controller
 //         $collect->dd();
         // $matrix = $collect->crossJoin($departure);
          //return  $matrix->all();
-        return view('requisitions.show', compact('requisitions','requesteds','department','nametitular','roltitular','coordination'));
+     return view('requisitions.show', compact('requisitions','requesteds','department','nametitular','roltitular','coordination'));
     }
 
     /**
@@ -279,8 +272,16 @@ class RequisitionsController extends Controller
      */
     public function destroy($id)
     {
-        $requisition = Requisition::findOrFail($id);
-        $requisition->delete();
+        Requisition::destroy($id);
+        // $requisition = Requisition::findOrFail($id);
+        // $requisition->delete();
+           $pivotreq = PivotRequisition::all()->where('requisition_id','=', $id);
+        foreach ($pivotreq as $p)
+        {
+           $p = $p->id;
+        }
+        PivotRequisition::destroy($p);
+      //  $pivotreq->delete();
 
         return back();
     }
@@ -341,7 +342,8 @@ class RequisitionsController extends Controller
             if ($users = auth()->user()->isAdmin())
             {
                 // $requisitions = PivotRequisition::all();
-                $requisitions = Requisition::all()->where('status','=','1');
+                // $requisitions = Requisition::all()->where('status','=','1');
+                $requisitions = PivotRequisition::all()->where('status','=','1');
             }
             elseif($users = auth()->user()->isCoor()) {
                 $user = auth()->user()->id;
@@ -357,11 +359,13 @@ class RequisitionsController extends Controller
             {
                 if(auth()->user()->isTitular()) {
                     $user = auth()->user()->id;
-                    $requisitions = Requisition::all()
-                        ->where('status','=','1');
+                    // $requisitions = Requisition::all()
+                    //     ->where('status','=','1');
+                    $requisitions = PivotRequisition::all()->where('user_id','=',$user)->where('status','=','1');
                 }
             }
         }
+
         return view('requisitions.authorized', compact('requisitions'));
     }
 

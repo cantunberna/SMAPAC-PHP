@@ -15,11 +15,14 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quotes_id')->unsigned();
+            $table->integer('requisition_id')->unsigned();
+            $table->integer('coordination_id')->unsigned();
+            $table->integer('department_id')->unsigned();
+            // $table->integer('purchases_id')->unsigned();
             $table->string('img_bill')->nullable();
             $table->longText('file_bill')->nullable();
             $table->tinyInteger('status')->default('0');
-            $table->integer('amount')->unsigned();
+            $table->integer('amount')->nullable();
             $table->timestamps();
         });
     }

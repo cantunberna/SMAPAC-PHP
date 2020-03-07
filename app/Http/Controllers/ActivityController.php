@@ -17,6 +17,7 @@ class ActivityController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('roles:admin,coordinador');
     }
     /**
      * Display a listing of the resource.
@@ -145,12 +146,12 @@ class ActivityController extends Controller
         // DB::table('mirs')->where('component','=',$request->input('component_id'))->increment('fedresource', $request->input('amount'));
 
         // DB::table('mirs')->where('component','=',$request->input('component_id'))->increment('ownresource', $request->input('amount'));
-        
+
         return redirect('activities');
     }
 
     // Export Excel
-    public function exportExcel() 
+    public function exportExcel()
     {
         // Excel::create('Bids-' . date("Y/m/d"), function($excel) {
         //     $excel->sheet('Favourites', function($sheet) {
