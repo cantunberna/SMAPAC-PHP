@@ -37,6 +37,7 @@ Route::get('requisitions/{requisition}/load', 'RequisitionsController@load')->na
 Route::put('requisitions/{requisition}/upload', 'RequisitionsController@upload')->name('requisitions.upload');
 Route::get('requisitions/authorized', 'RequisitionsController@authorized')->name('requisitions.authorized');
 Route::get('requisitions/authorized/{requisition}', 'RequisitionsController@show_authorized')->name('requisitions.show_authorized');
+Route::get('quotes/{quotes}/addproviders', 'QuotesController@addproviders')->name('quotes.addproviders');
 Route::get('purchased/{purchased}/load', 'PurchasedController@load')->name('purchased.load');
 Route::put('purchased/{purchased}/upload', 'PurchasedController@upload')->name('purchased.upload');
 Route::resources([

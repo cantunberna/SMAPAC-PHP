@@ -5,7 +5,9 @@
 
 <h1>Proveedores
   <small class="text-muted">Listado</small>
+  @if(auth()->user()->isAdmin())
   <a href="/providers/create" class="btn btn-success btn-sm"><i class="fas fa-plus-square"></i>&nbsp;Añadir</a>
+  @endif
 </h1>
 
 <div class="card">

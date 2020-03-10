@@ -23,7 +23,7 @@ class DepartmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('roles:admin,coordinador,titular');
+        $this->middleware('roles:admin,coordinador');
     }
 
 
@@ -38,7 +38,7 @@ class DepartmentController extends Controller
                 //  $titular = Department::all();
                 $departamentos = Department::all();
             }
-            elseif ($users = auth()->user()->hasRoles(['coordinador'])){
+            elseif ($users = auth()->user()->isCoor()){
                 $users = auth()->user()->id;
                 $coordination = Coordination::all()->where('user_id','=', $users);
                 foreach($coordination as $coor)
@@ -46,11 +46,11 @@ class DepartmentController extends Controller
                     $idcoor = $coor->id;
                 }
                 $departamentos = PivotDepartments::all()->where('coordination_id','=',$idcoor);
-                foreach ($departamentos as $dep)
-                {
-                     $iddep = $dep->department_id;
-                }
-                $departamentos = Department::all()->where('id', '=', $iddep);
+                // foreach ($departamentos as $dep)
+                // {
+                //      $iddep = $dep->department_id;
+                // }
+                // $departamentos = Department::all()->where('id', '=', $iddep);
             }else{
                 return 'soy un titular';
         }

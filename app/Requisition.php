@@ -16,6 +16,7 @@ class Requisition extends Model
         'unit',
         'concept',
         'remark',
+        'cont',
         'img_req',
         'file_req',
         'status'];
@@ -49,7 +50,7 @@ class Requisition extends Model
 
     public function requesteds()
     {
-       return $this->belongsToMany(Requested::class, 'assigned_requesteds','requested_id');
+       return $this->belongsToMany(Requested::class, 'assigned_requesteds');
     }
 
     public function quotes()

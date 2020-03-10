@@ -19,12 +19,13 @@
 
         @foreach ($products as $p)
 
-        {{--  @if( $u->id)  --}}
+        @if($p->status == '0')
         <a class="btn btn-info" href="{{route('purchased.load',$p->purchases->id) }} ">
             <i class="fas fa-file-upload">
             </i>
             Subir
         </a>
+        @endif
         <a class="btn btn-warning" href='javascript:;' onclick="genPDF();"><i class="fas fa-print"></i>&nbsp;PDF</a>
         {{--  @endif  --}}
 
@@ -71,27 +72,31 @@
             </thead>
             <tbody>
              <tr>
+                <@foreach ($requesteds as $req)
+
                 <th>
                     <li>
-                        {{$p->requesteds->departure}}
+                        {{$req->departure}}
                     </li>
                 </th>
                 <td>
                     <li>
-                        {{$p->requesteds->quantity }}
+                        {{$req->quantity }}
                     </li>
                 </td>
                 <td>
                     <li>
-                        {{$p->requesteds->unit }}
+                        {{$req->unit }}
                     </li>
                 </td>
                 <td>
                     <li>
-                        {{$p->requesteds->concept }}
+                        {{ $req->concept }}
                     </li>
                 </td>
             </tr>
+            @endforeach
+
             </tbody>
             <thead class="table-bordered">
                 <th colspan="4">

@@ -36,7 +36,7 @@
         <br>
         <br>
 
-        <a class="btn btn-danger" href="/requisitions/{{$purchase->id}}">
+        <a class="btn btn-danger" href="{{ url()->previous() }}">
             <i class="fas fa-times-circle">
             </i>
             Cancelar

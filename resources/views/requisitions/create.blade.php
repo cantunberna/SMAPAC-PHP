@@ -84,6 +84,7 @@
     <div class="form-group col-md-2">
         <label for="">Opción</label><br>
         <button type="button" class="add_button btn btn-success"><i class="fas fa-plus-circle"></i>&nbsp;Añadir</button>
+            <input class="form-control" type="text" name="cont" id="cont" hidden>
     </div>
     </div>
       {{--  <div class="form-group row col-md-12">
@@ -137,19 +138,24 @@
             '<label for="">Concepto</label>' +
             '<input type="text" name="concept[]" class="form-control" id="concepto">' +
             '</div>' +
+
             '<button type="button" class="remove_button btn btn-danger btn-sm">' +
             '<i class="fas fa-minus-circle">' +
             '</i>' +
             '</button>' +
             '</div>' +
+
             '</div>'; //Nuevo campo de entrada html
-        var x = 1; //El contador de campo inicial es 1
+        var x = 0; //El contador de campo inicial es 1
         //Una vez que se hace clic en el botón Agregar
+
         $(addButton).click(function(){
             //Verifique el número máximo de campos de entrada
             if(x < maxField){
                 x++; //Contador de campo de incremento
                 $(wrapper).append(fieldHTML); //Agregar campo html
+        document.getElementById("cont").value = x;
+
             }
         });
 

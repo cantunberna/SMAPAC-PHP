@@ -31,5 +31,16 @@ class Quote extends Model
         return $this->belongsToMany(Requisition::class,'assigned_quotes');
     }
 
-
+    public function providers()
+    {
+        return $this->belongsTo(Provider::class,'prov_id_one');
+    }
+    public function providers_two()
+    {
+        return $this->belongsTo(Provider::class,'prov_id_two');
+    }
+    public function providers_three()
+    {
+        return $this->belongsTo(Provider::class,'prov_id_three');
+    }
 }

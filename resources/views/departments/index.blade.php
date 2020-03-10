@@ -7,11 +7,13 @@
     <small class="text-muted">
         Listado
     </small>
-    <a class="btn btn-success btn-sm" href="/departments/create">
+    @if(auth()->user()->isAdmin())
+    <a class="btn btn-success btn-sm" href="{{ route('departments.create') }}">
         <i class="fas fa-plus-square">
         </i>
         Añadir
     </a>
+    @endif
 </h1>
 <div class="card">
     <div class="card-body">
@@ -30,9 +32,11 @@
                     <th>
                         Titular
                     </th>
+                    @if(auth()->user()->isAdmin())
                     <th>
                         Opciones
                     </th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -43,11 +47,11 @@
                         {{$dep->id}}
                     </td>
                     <td>
-                        {{$dep->name}}
+                        {{$dep->departments}}
                     </td>
                     <td>
 
-                        {{$dep->user->profession}}. {{$dep->user->name}} {{$dep->user->paterno}} {{$dep->user->materno}}
+                        {{$dep->departaments->user->profession}} {{$dep->departaments->user->name}} {{$dep->departaments->user->paterno}} {{$dep->departaments->user->materno}}
                     </td>
                     {{-- <td> --}}
                         {{-- <td>
@@ -59,6 +63,7 @@
                         {{--  <li>{{ $dep->coordination->pluck('name')->implode(', ') }}</li>  --}}
                     {{-- </td> --}}
                     <td>
+                        @if(auth()->user()->isAdmin())
                         <div class="form-row">
                         <form action="{{route ('departments.destroy', $dep->slug)}}" class="form-group" method="POST">
                                 @csrf
@@ -81,6 +86,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endif
                     </td>
                 </tr>
                     {{-- @endif --}}

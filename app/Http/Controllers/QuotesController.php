@@ -9,7 +9,7 @@ use App\PivotRequisition;
 use App\PivotQuotes;
 use App\Quote;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\StoreQuoteRequest;
 class QuotesController extends Controller
 {
 
@@ -78,7 +78,7 @@ class QuotesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreQuoteRequest $request)
     {
 
     //   return $quotes = $request->all();
@@ -184,13 +184,13 @@ class QuotesController extends Controller
             if ($r >= "2")
             {
                 // return 'Se cumple el primer if';
-                return redirect('quotes')->with('info', 'Cotizacion almacenad');                //  return view('quotes.show');
+                return redirect('quotes')->with('info', 'Cotizacion almacenada');                //  return view('quotes.show');
             }else
             {
-                    if (is_null($requisitions->file_req)) {
+             if (is_null($requisitions->file_req)) {
                         $requisitions = Requisition::findOrFail($id);
                         return view('requisitions.load', compact('requisitions'));
-                    }else{
+                }else{
                              $pivotreq = PivotRequisition::all()->where('requisition_id','=', $id);
                              foreach($pivotreq as $p){
                               $department_id = $p->department_id;
@@ -204,6 +204,13 @@ class QuotesController extends Controller
             }
     }
 
+    public function addproviders(Request $request, $id)
+    {
+        $quotes = PivotQuotes::findOrFail($id);
+        $providers = Provider::all();
+        // return $quotes = PivotQuotes::with('quotes')->get();
+        return view('quotes.addproviders',compact('quotes','providers'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -211,10 +218,53 @@ class QuotesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreQuoteRequest $request, $id)
     {
-        //
+          $request->all();
+         $quote_id = $request->input('quote_id');
+
+          $quotes = Quote::findOrFail($quote_id);
+         if($request->hasFile('prov_one_img'))
+        {
+           $quotes->prov_one_img = $request->file('prov_one_img')->store('/public/quotes');
+          //  $name_one = 'cot'.time();
+        }
+        if($request->hasFile('prov_two_img'))
+        {
+            $quotes->prov_two_img = $request->file('prov_two_img')->store('/public/quotes');
+        }
+        if($request->hasFile('prov_three_img'))
+        {
+            $quotes->prov_three_img = $request->file('prov_three_img')->store('/public/quotes');
+        }
+
+       // $quotes->save();
+
+       $quotes->requisition_id = $request->input('requisition_id');
+       $quotes->prov_id_one = $request->input('prov_id_one');
+       $quotes->prov_id_two = $request->input('prov_id_two');
+       $quotes->prov_id_three = $request->input('prov_id_three');
+    //    $quotes->prov_one_img = $request->input('prov_one_img');
+    //    $quotes->prov_two_img = $request->input('prov_two_img');
+    //    $quotes->prov_three_img = $request->input('prov_three_img');
+
+       $quotes->save();
+
+    //  $quotes = $quotes->departments()->attach($request->department_id,['requisition_id' => $request->input('requisition_id')]);
+        //  $user->roles()->attach($request->roles);
+       $req =  $request->input('requisition_id');
+
+        $requisition = Requisition::findOrFail($req);
+        $requisition->status = '2';
+        $requisition->save();
+
+        $pivotreq = PivotRequisition::where('requisition_id','=',$req)->first();
+        $pivotreq->status = '2';
+        $pivotreq->save();
+
+        return redirect()->route('quotes.index')->with('success','Cotizacion almacenada');
     }
+
 
     /**
      * Remove the specified resource from storage.

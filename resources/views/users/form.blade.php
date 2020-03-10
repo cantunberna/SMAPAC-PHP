@@ -9,18 +9,18 @@
   </div>
   <div class="form-group col-md-4">
     <label for="">Apellido Paterno</label>
-    <input type="text" name="paterno" class="form-control" id="name" value="{{old('paterno')}}">
+    <input type="text" name="paterno" class="form-control" id="name" value="{{ $user->paterno or old('paterno')}}">
   </div>
   <div class="form-group col-md-4">
     <label for="">Apellido Materno</label>
-    <input type="text" name="materno" class="form-control" id="name" value="{{ old('materno')}}">
+    <input type="text" name="materno" class="form-control" id="name" value="{{ $user->materno or old('materno')}}">
   </div>
 </div>
 
 <div class="form-row">
     <div class="form-group col-md-4">
       <label for="">CURP</label>
-      <input type="text" name="curp" class="form-control" id="code" value="{{ old('curp')}}">
+      <input type="text" name="curp" class="form-control" id="code" value="{{ $user->curp or old('curp')}}">
 
       {{-- @if ($errors->has('code'))
        <p style="color:red">  {{$errors->first('code')}} </p>
@@ -28,35 +28,34 @@
     </div>
     <div class="form-group col-md-4">
       <label for="">RFC</label>
-      <input type="text" name="rfc" class="form-control" id="name" value="{{ old('rfc')}}">
+      <input type="text" name="rfc" class="form-control" id="name" value="{{ $user->rfc or old('rfc')}}">
     </div>
     <div class="form-group col-md-4">
         <label for="">Telefono</label>
-        <input type="text" name="phone" class="form-control" id="name" value="{{ old('phone')}}">
+        <input type="text" name="phone" class="form-control" id="name" value="{{ $user->phone or old('phone')}}">
       </div>
   </div>
 
 <div class="form-row">
   <div class="form-group col-md-3">
     <label for="">Fecha de Nacimiento</label>
-    <input type="date" name="birthday" class="form-control" id="amount" value="{{ old('birthday')}}">
+    <input type="text" name="birthday" class="form-control" id="amount" value="{{ $user->birthday or old('birthday')}}">
   </div>
 
   <div class="form-group col-md-3">
     <label for="">Genero</label>
     <select id="inputState" name="gender" class="form-control">
-      <option selected disabled>Elige una opción</option>
-      <option>Masculino</option>
+      <option selected disabled value="{{$user->gender}} "> {{ $user->gender   }}</option>
       <option>Femenino</option>
     </select>
   </div>
   <div class="form-group col-md-2">
     <label for="">Edad</label>
-    <input type="text" name="age" class="form-control" id="inputCity" value="{{ old('age')}} ">
+    <input type="text" name="age" class="form-control" id="inputCity" value="{{$user->age or old('age')}} ">
   </div>
     <div class="form-group col-md-2">
         <label for="">Profesion</label>
-        <input type="text" name="profession" class="form-control" id="inputCity" value="{{ old('profession')}} ">
+        <input type="text" name="profession" class="form-control" id="inputCity" value="{{$user->profession or old('profession')}} ">
     </div>
   <div class="form-group col-md-4">
     <label for="">Correo</label>
@@ -88,7 +87,7 @@
 
 <div class="form-group">
   <label for="">Dirección</label>
-  <textarea class="form-control" name="address" id="description">{{ old('direction')}}</textarea>
+  <textarea class="form-control" name="address" id="description">{{$user->address or old('direction')}}</textarea>
   {{-- @if ($errors->has('description'))
      <p style="color:red">  {{$errors->first('description')}} </p>
     @endif --}}

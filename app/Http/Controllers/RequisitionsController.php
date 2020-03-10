@@ -146,7 +146,7 @@ class RequisitionsController extends Controller
      */
     public function store(StoreRequisitionRequest $request)
     {
-        //  $request->all();
+        // return $request->all();
         //$user = User::create($request->all());
        $requisition = new Requisition();
        $requisition->folio = $request->input('folio');
@@ -156,36 +156,47 @@ class RequisitionsController extends Controller
        $requisition->required_on = $request->input('required_on');
        $requisition->issue = $request->input('issue');
        $requisition->remark = $request->input('remark');
-        $requisition->status = 0;
-        $requisition->save();
-
+       $requisition->status = 0;
+         $requisition->save();
             $requesteds = new Requested();
 
               foreach ($request->departure as $item=>$v) {
                   $data2=array(
-                        'departure' => $request->departure[$item],
+                    'departure' => $request->departure[$item],
                     'quantity' => $request->quantity[$item],
                     'unit' => $request->unit[$item],
                     'concept' => $request->concept[$item],
-
-
                 );
+            //    return $requesteds = $data2;
              $requesteds = Requested::insert($data2);
-            //  $requisition->requesteds()->attach($requesteds);
+            //  return json_encode($requesteds);
+            // $c = count((array)$requesteds);
+            // for ($i=0; $i < $c; $i++) {
+            //     return "Requesteds". $requesteds[$i]."</br>";
+            // }
+            }
+        $registros = Requested::latest()->orderBy('id', 'desc')
+        ->take($request->input('cont'))
+        ->get();
 
-             //$requisition->requesteds()->attach($requesteds);
+        foreach($registros as $r)
+        {
+             $idrequesteds = $r->id;
+             $requisition->requesteds()->attach($requisition->id,['requested_id'=>$idrequesteds]);
             }
 
-        // $requesteds->departure = $request->input('departure');
-        // $requesteds->quantity = $request->input('quantity');
-        // $requesteds->unit = $request->input('unit');
-        // $requesteds->concept = $request->input('concept');
-       // return $departure ." ". $quantity ." ". $unit ." ". $concept ;
+            // return $requesteds;
 
 
-        $requisitions = $requisition->coordinations()->attach($request->input('coordination_id'), ['department_id' => $request->input('department_id'),'accountant' => $request->input('accountant'),'user_id'=> $request->input('user_id')]);
-
-
+        $requisitions = $requisition->coordinations()
+        ->attach(
+                 $request->input('coordination_id'),
+                    [
+                        'department_id' => $request->input('department_id'),
+                        'accountant' => $request->input('accountant'),
+                        'user_id'=> $request->input('user_id')
+                    ]
+                );
 
         return redirect()->route('requisitions.index')->with('success','Requisición almacenada');
     }
@@ -320,6 +331,7 @@ class RequisitionsController extends Controller
             $nameimage = 'req'.time().'.png';
              $image = base64_encode(file_get_contents($request->file('img_req')));
              $file->move(public_path().'/images/requisitions/', $nameimage);
+            //  $quotes->prov_one_img = $request->file('prov_one_img')->store('/public/quotes');
       }
 
         $requisition->img_req = $nameimage;
@@ -332,7 +344,7 @@ class RequisitionsController extends Controller
         //$requisitions->img_req =
       // $requisitions->update($request->only('img_req','email'));
 
-        return redirect('requisitions/authorized')->with('status', 'Requisición actualizada');
+        return redirect('requisitions/authorized')->with('success', 'Requisición autorizada');
     }
 
     public function authorized()

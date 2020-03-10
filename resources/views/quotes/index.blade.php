@@ -14,7 +14,7 @@
     </h1>
     <div class="card">
         <div class="card-body">
-                <table class="table table-hover">
+            <table class="table table-hover" id="example">
                     <thead>
                     <tr>
                         <th scope="col">Folio</th>
@@ -25,7 +25,7 @@
                      </tr>
                     </thead>
                     <tbody>
-                        @forelse ($quotes as $q)
+                        @foreach ($quotes as $q)
                     <tr>
                         <td><a href="{{route('requisitions.authorized')}}/{{$q->requisition_id}}">
                             <strong> {{ $q->requisitions->folio }} </strong></a></td>
@@ -37,28 +37,32 @@
                         </td>
                         <td>
                             @if(!is_null($q->quotes->prov_one_img))
-                            <a href="{{ Storage::url($q->quotes->prov_one_img) }}" class="btn-descargar" target="_blank">
-                                <i class="fas fa-download"></i>
-                              </a>
-
+                            <div style="display: inline; margin: 10px"title="Proveedor {{$q->quotes->providers->name }}">
+                                <a href="{{ Storage::url($q->quotes->prov_one_img) }}" class="btn-descargar"  target="_blank">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
                             @endif
                             @if(!is_null($q->quotes->prov_two_img))
+                            <div style="display: inline; margin: 10px" title="Proveedor {{$q->quotes->providers_two->name}}">
                             <a href="{{ Storage::url($q->quotes->prov_two_img) }}" class="btn-descargar" target="_blank">
                                 <i class="fas fa-download"></i>
                               </a>
-
+                            </div>
                             @endif
                             @if(!is_null($q->quotes->prov_three_img))
+                            <div style="display: inline; margin: 10px"title="Proveedor {{$q->quotes->providers_three->name}}">
                             <a href="{{ Storage::url($q->quotes->prov_three_img) }}" class="btn-descargar" target="_blank">
                                 <i class="fas fa-download"></i>
                               </a>
-
+                            </div>
                             @endif
                         </td>
                         <td>
+                            <a class="btn btn-warning btn-xs" href="{{ route('quotes.addproviders', $q->id) }}">Editar</a>
+
                             <a class="btn btn-success btn-xs"
                             href="{{ route('purchased.edit',$q->requisitions->id)  }}">Generar</a>
-
                             @if(auth()->user()->isAdmin())
                             <form style="display:inline"
                              method="POST"
@@ -72,27 +76,7 @@
                             @endif
                         </td>
                     </tr>
-                    @empty
-                    <div class="container">
-                    <div class="alert alert-dark text-center" role="alert">
-                        <h5>
-                             <strong>Ninguna requisición cotizada</strong>
-                        </h5>
-                        <hr>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                    </div>
-                    @endforelse
+                @endforeach
                 </tbody>
             </table>
         </div>

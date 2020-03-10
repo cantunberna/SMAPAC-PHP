@@ -17,7 +17,8 @@ class CreateAssignedProductsTable extends Migration
             $table->increments('id');
             $table->integer('department_id')->unsigned();
             $table->integer('purchase_id')->unsigned();
-            $table->integer('products_id')->unsigned();
+            $table->string('products_id')->unsigned();
+            $table->tinyInteger('status')->default('0');
             $table->timestamps();
         });
     }

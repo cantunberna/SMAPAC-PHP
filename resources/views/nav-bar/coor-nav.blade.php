@@ -17,16 +17,6 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-accordion="false" data-widget="treeview" role="menu">
-                <li class="nav-item">
-                    <a class="{{ activeMenu('users') }} nav-link" href="{{ route('users.index') }}">
-                        <i class="nav-icon fas fa-user-alt">
-                        </i>
-                        <p>
-                            Usuarios
-                        </p>
-                    </a>
-                </li>
-
                 <li class="nav-item has-treeview menu-close">
                     <a href="" class="nav-link {{ activeMenu('coordinations')}}">
                       <i class="nav-icon fas fa-building"></i>

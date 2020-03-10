@@ -101,6 +101,7 @@ class PurchasedController extends Controller
             $data3=array(
                 'products_id' => $request->id_requesteds[$item],
                 // 'quantity' => $request->quantity[$item],
+
                 // 'unit' => $request->unit[$item],
                 // 'concept' => $request->concept[$item]
             );
@@ -132,23 +133,36 @@ class PurchasedController extends Controller
     public function show($id)
     {
         // $purchase = Purchase::findOrFail($id;
-    //    return $products = PivotProducts::with('purchases')->where('purchase_id','=', $id)->first();
+    //    $products = PivotProducts::with('purchases')->where('purchase_id','=', $id)->first();
 
-          $products = DB::table('assigned_products')->where('purchase_id','=',$id)->select('products_id')->get();
+         $products = DB::table('assigned_products')->where('purchase_id','=',$id)->select('products_id')->get();
+        // return  $products = explode(',',$products);
 
      foreach($products as $p    ) {
-                $id = explode(',',$p->products_id);
+             $p = $p->products_id;
         }
-            $name = array('products');
-            $requesteds = Requested::all()->where('id','=',$id);
-        // foreach ($products as $p => $products_id) {
+          $products = explode(',', $p);
+        foreach ($products as $key => $value) {
+            $idreq = $key.' Es la posicion '. $value.' es el valor';
+
+            $idreq = $value;
+
+            //   foreach ($idreq as  $dd) {
+            //     return $dd;
+            // }
+        }
+
+        $requesteds = Requested::all()->where('id','=',$idreq);
+
+        $products = PivotProducts::with(['purchases'])->where('purchase_id','=',$id)->get();
+       // foreach ($products as $p => $products_id) {
         //  return   $id = explode(',',$p);
 
         // }
 
-        return   $products = PivotProducts::with(['purchases','requesteds'])->where('purchase_id','=',$id)->get();
+        // $products = PivotProducts::with(['purchases','requesteds'])->where('purchase_id','=',$id)->get();
         // $products = PivotProducts::all()->where('purchase_id','=', $id);
-        return view('purchases.show',compact('products'));
+        return view('purchases.show',compact('products','requesteds'));
     }
 
     /**
@@ -223,8 +237,8 @@ class PurchasedController extends Controller
          {
           $purchase->img_bill = $request->file('img_req')->store('/public/documents/facturas');
          }
-        $purchase->status = "1";
-        // $purchase->save();
+        $purchase->status = '1';
+        $purchase->save();
 
         $pivotproduct = PivotProducts::where('purchase_id','=',$id)->first();
         $pivotproduct->status = '1';

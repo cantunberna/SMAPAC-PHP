@@ -1,9 +1,9 @@
 @extends('layouts.master')
-@section('title','Subir Cotizaciones')
+@section('title','Actualizar Cotizaciones')
 @section('content')
     <div class="container">
         <h1>Cotizaciones
-            <small class="text-muted">Subir</small>
+            <small class="text-muted">Actualizar</small>
             @if(auth()->user()->isTitular())
                 <a class="btn btn-danger btn-sm" href="{{ url()->previous() }}">
                     <i class="fas fa-backspace">
@@ -14,12 +14,13 @@
         </h1>
 
         <div>
-            <form action="{{ action('QuotesController@store') }}" method="POST" enctype="multipart/form-data">
-                @method('POST')
+            <form action="{{ action('QuotesController@update',$quotes->id) }}" method="POST" enctype="multipart/form-data">
+                @method('PUT')
                 @csrf
-               <h2 style="color:#1fc8e3;"> <strong>Requisicion: {{$requisition->folio}}</strong></h2>
-               <input type="text" class="custom-file-input" name="requisition_id" value="{{$requisition->id}}" hidden>
-     <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" name="department_id" value="{{ $department_id }}" hidden>
+               <h2 style="color:#1fc8e3;"> <strong>Requisicion: {{$quotes->requisitions->folio}}</strong></h2>
+               <input type="text" class="custom-file-input" name="requisition_id" value="{{$quotes->requisitions->id}}" hidden>
+                <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" name="department_id" value="{{ $quotes->department_id }}" hidden>
+                <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" name="quote_id" value="{{ $quotes->quotes->id }}" hidden>
             </div>
 
 
@@ -29,9 +30,8 @@
             <select id="prov1"  name="prov_id_one" class="form-control sel">
                 <option disabled selected>Selecciona un proveedor</option>
                 @foreach($providers as $prov)
-                <option data-name="{{$prov->address}}" data-rfc="{{$prov->rfc}}" value="{{$prov->id }}">{{$prov->name}}</option>
+                    <option data-name="{{$prov->address}}"  data-rfc="{{$prov->rfc}}" class="active" value="{{$prov->id}}">{{$prov->name}}</option>
                 @endforeach
-
             </select>
             @if ($errors->has('prov_id_one'))
             <p style="color:red"> <strong> {{$errors->first('prov_id_one')}}</strong> </p>

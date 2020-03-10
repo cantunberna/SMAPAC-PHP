@@ -10,6 +10,11 @@ class PivotDepartments extends Model
 
     public function departaments()
     {
-    return $this->belongsTo(Department::class);
+    return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

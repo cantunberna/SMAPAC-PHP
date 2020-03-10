@@ -31,13 +31,10 @@ class CoordinationController extends Controller
             if ($users = auth()->user()->isAdmin())
             {
                 $coordinaciones  = Coordination::all();
-            }elseif ($users = auth()->user()->isCoor){
-                $users = auth()->user()->id;
+            }elseif ($users = auth()->user()->isCoor()){
+               $users = auth()->user()->id;
                 $coordinaciones = Coordination::all()->where('user_id','=', $users);
-            }else{
-                return 'soy un titular';
             }
-
         }
         return view('coordinations.index', compact('coordinaciones'));
     }

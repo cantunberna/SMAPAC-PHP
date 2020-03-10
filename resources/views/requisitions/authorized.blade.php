@@ -31,8 +31,7 @@
             </thead>
 
             <tbody>
-                @forelse ($requisitions as $requi)
-
+                @foreach ($requisitions as $requi)
                 <tr>
                     <td>
                      <strong>{{$requi->requisition->folio}}</strong>
@@ -48,8 +47,7 @@
                     </td>
                     <td>
                         <a class="btn btn-info btn-xs"
-                           {{--  href="/requisitions/authorized/{{$requi->requisition->id }}">  --}}
-                           href="{{ route('requisitions.authorized',$requi->requisition->id)  }}">
+                           href="{{ route('requisitions.show_authorized',$requi->requisition->id)  }}">
                            Ver
                         </a>
                         @if(auth()->user()->isAdmin())
@@ -64,27 +62,7 @@
                        @endif
                     </td>
                 </tr>
-                @empty
-                <div class="container">
-                    <div class="alert alert-dark text-center" role="alert">
-                        <h5>
-                            <strong>No existen requisiciones autorizadas</strong>
-                        </h5>
-                        <hr>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                </div>
-                @endforelse
+                @endforeach
             </tbody>
         </table>
     </div>

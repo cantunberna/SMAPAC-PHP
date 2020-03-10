@@ -5,7 +5,9 @@
 
 <h1>Coordinaciones
   <small class="text-muted">Listado</small>
-  <a href="/coordinations/create" class="btn btn-success btn-sm"><i class="fas fa-plus-square"></i>&nbsp;Añadir</a>
+  @if(auth()->user()->isAdmin())
+  <a href="{{ route('coordinations.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus-square"></i>&nbsp;Añadir</a>
+  @endif
 </h1>
 
 <div class="card">

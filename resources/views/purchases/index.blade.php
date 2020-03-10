@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($purchases as $p)
+                        @foreach($purchases as $p)
 
                                 <tr>
                              <td>  <strong> {{$p->purchases->requisition->folio}}</strong></td>
@@ -66,18 +66,9 @@
                                 @endif
                             </td>
                      </tr>
+                     @endforeach
                     </tbody>
-                        @empty
-                            <div class="container">
-                                <div class="alert alert-dark text-center" role="alert">
-                                    <h5>
-                                        <strong>No existen ninguna orden de compra</strong>
-                                    </h5>
-                                    <hr>
-                                </div>
-                            </div>
-                        @endforelse
-                </table>
+                 </table>
 
      </div>
      </div>
