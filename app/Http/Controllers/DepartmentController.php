@@ -36,7 +36,7 @@ class DepartmentController extends Controller
                 // $users = User::all();
                 //  $departamentos =PivotDepartments::all();
                 //  $titular = Department::all();
-                $departamentos = Department::all();
+                $departamentos = PivotDepartments::all();
             }
             elseif ($users = auth()->user()->isCoor()){
                 $users = auth()->user()->id;

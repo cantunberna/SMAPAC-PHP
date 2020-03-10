@@ -47,7 +47,7 @@
                         {{$dep->id}}
                     </td>
                     <td>
-                        {{$dep->departments}}
+                        {{$dep->departaments->name}}
                     </td>
                     <td>
 
@@ -65,7 +65,7 @@
                     <td>
                         @if(auth()->user()->isAdmin())
                         <div class="form-row">
-                        <form action="{{route ('departments.destroy', $dep->slug)}}" class="form-group" method="POST">
+                        <form action="{{route ('departments.destroy', $dep->departaments->slug)}}" class="form-group" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm" type="submit">
@@ -74,11 +74,13 @@
                                 </button>
                             </form>&nbsp;&nbsp;
                             <div class="form-group">
-                                <a class="btn btn-warning btn-sm" href="/departments/edit">
+                                <a class="btn btn-warning btn-sm" href="{{ route('departments.edit', $dep->departaments->slug) }}">
                                     <i class="fas fa-pen">
                                     </i>
                                 </a>
                             </div>&nbsp;&nbsp;
+                        @endif
+
                             <div class="form-group">
                                 <a class="btn btn-primary btn-sm" href="/departments/">
                                     <i class="fas fa-eye">
@@ -86,7 +88,6 @@
                                 </a>
                             </div>
                         </div>
-                        @endif
                     </td>
                 </tr>
                     {{-- @endif --}}

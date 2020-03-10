@@ -34,7 +34,7 @@
               <td>{{$prov->address}}</td>
               <td>{{$prov->telephone}}</td>
               <td>
-
+                @if(auth()->user()->isAdmin())
               <div class="form-row">
               <form class="form-group" method="POST" action="/providers/{{$prov->slug}}">
                 @csrf
@@ -45,7 +45,7 @@
               <div class="form-group">
               <a class="btn btn-warning btn-sm" href="/providers/{{$prov->slug}}/edit"><i class="fas fa-pen"></i></a>
               </div>&nbsp;&nbsp;
-
+              @endif
               <div class="form-group">
               <a class="btn btn-primary btn-sm" href="/providers/{{$prov->slug}}"><i class="fas fa-eye"></i></a>
               </div>
